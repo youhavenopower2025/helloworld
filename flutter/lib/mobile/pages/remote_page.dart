@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hbb/common/shared_state.dart';
 import 'package:flutter_hbb/common/widgets/toolbar.dart';
 import 'package:flutter_hbb/consts.dart';
+import 'package:flutter_hbb/mobile/widgets/floating_mouse.dart';
+import 'package:flutter_hbb/mobile/widgets/floating_mouse_widgets.dart';
 import 'package:flutter_hbb/mobile/widgets/gesture_help.dart';
 import 'package:flutter_hbb/models/chat_model.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -616,6 +618,17 @@ class _RemotePageState extends State<RemotePage> with WidgetsBindingObserver {
           ];
           if (showCursorPaint) {
             paints.add(CursorPaint(widget.id));
+          }
+          if (gFFI.ffiModel.touchMode &&
+              gFFI.ffiModel.showVirtualMouseTouchMode) {
+            paints.add(FloatingMouse(
+              ffi: gFFI,
+            ));
+          } else if (gFFI.ffiModel.touchMode == false &&
+              gFFI.ffiModel.showVirtualMouseMouseMode) {
+            paints.add(FloatingMouseWidgets(
+              ffi: gFFI,
+            ));
           }
           return paints;
         }()));
