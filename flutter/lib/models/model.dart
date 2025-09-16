@@ -2431,6 +2431,10 @@ class CursorModel with ChangeNotifier {
     return true;
   }
 
+  Future<void> syncCursorPosition() async {
+    await parent.target?.inputModel.moveMouse(_x, _y);
+  }
+
   bool isInRemoteRect(Offset offset) {
     return getRemotePosInRect(offset) != null;
   }
