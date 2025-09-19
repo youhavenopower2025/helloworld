@@ -12,7 +12,6 @@ class PermissionRequestTransparentActivity: Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(logTag, "onCreate PermissionRequestTransparentActivity: intent.action: ${intent.action}")
 
         when (intent.action) {
             ACT_REQUEST_MEDIA_PROJECTION -> {
@@ -39,7 +38,7 @@ class PermissionRequestTransparentActivity: Activity() {
     }
 
     private fun launchService(mediaProjectionResultIntent: Intent) {
-        Log.d(logTag, "Launch MainService")
+    
         val serviceIntent = Intent(this, MainService::class.java)
         serviceIntent.action = ACT_INIT_MEDIA_PROJECTION_AND_SERVICE
         serviceIntent.putExtra(EXT_MEDIA_PROJECTION_RES_INTENT, mediaProjectionResultIntent)
