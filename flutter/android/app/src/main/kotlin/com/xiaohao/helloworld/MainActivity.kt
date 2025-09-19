@@ -362,8 +362,6 @@ class MainActivity : FlutterActivity() {
             ok = audioRecordHandle.onVoiceCallStarted(null)
         }
         if (!ok) {
-            // Rarely happens, So we just add log and msgbox here.
-            Log.e(logTag, "onVoiceCallStarted fail")
             flutterMethodChannel?.invokeMethod("msgbox", mapOf(
                 "type" to "custom-nook-nocancel-hasclose-error",
                 "title" to "Voice call",
@@ -382,8 +380,6 @@ class MainActivity : FlutterActivity() {
             ok = audioRecordHandle.onVoiceCallClosed(null)
         }
         if (!ok) {
-            // Rarely happens, So we just add log and msgbox here.
-            Log.e(logTag, "onVoiceCallClosed fail")
             flutterMethodChannel?.invokeMethod("msgbox", mapOf(
                 "type" to "custom-nook-nocancel-hasclose-error",
                 "title" to "Voice call",
