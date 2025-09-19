@@ -71,12 +71,11 @@ class FloatingWindowService : Service(), View.OnTouchListener {
                 firstCreate = false
                 onFirstCreate(windowManager)
             }
-            Log.d(logTag, "floating window size: $viewWidth x $viewHeight, transparency: $viewTransparency, lastLayoutX: $lastLayoutX, lastLayoutY: $lastLayoutY, customSvg: $customSvg")
+ 
             createView(windowManager)
             handler.postDelayed(runnable, 1000)
-            Log.d(logTag, "onCreate success")
         } catch (e: Exception) {
-            Log.d(logTag, "onCreate failed: $e")
+
         }
     }
 
@@ -96,7 +95,7 @@ class FloatingWindowService : Service(), View.OnTouchListener {
         if (customSvg.isNotEmpty()) {
             try {
                 val svg = SVG.getFromString(customSvg)
-                Log.d(logTag, "custom svg info: ${svg.documentWidth} x ${svg.documentHeight}");
+  
                 // This make the svg render clear
                svg.documentWidth = viewWidth * 1f
                svg.documentHeight = viewHeight * 1f
@@ -109,7 +108,7 @@ class FloatingWindowService : Service(), View.OnTouchListener {
                             })
                 }
                 floatingView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                Log.d(logTag, "custom svg loaded")
+       
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -170,7 +169,7 @@ class FloatingWindowService : Service(), View.OnTouchListener {
             "service-on" -> KeepScreenOn.SERVICE_ON
             else -> KeepScreenOn.DURING_CONTROLLED
         }
-        Log.d(logTag, "keepScreenOn option: $keepScreenOnOption, value: $keepScreenOn")
+        
         updateKeepScreenOnLayoutParams()
 
         windowManager.addView(floatingView, layoutParams)
@@ -288,7 +287,7 @@ class FloatingWindowService : Service(), View.OnTouchListener {
         if (newConfig.orientation != lastOrientation) {
             lastOrientation = newConfig.orientation
             val wh = getScreenSize(windowManager)
-            Log.d(logTag, "orientation: $lastOrientation, screen size: ${wh.first} x ${wh.second}")
+        
             val newW = wh.first
             val newH = wh.second
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -378,7 +377,7 @@ class FloatingWindowService : Service(), View.OnTouchListener {
         val oldOn = layoutParams.flags and FLAG_KEEP_SCREEN_ON != 0
         val newOn = keepScreenOn == KeepScreenOn.SERVICE_ON ||  (keepScreenOn == KeepScreenOn.DURING_CONTROLLED  &&  MainService.isStart)
         if (oldOn != newOn) {
-            Log.d(logTag, "change keep screen on to $newOn")
+ 
             if (newOn) {
                 layoutParams.flags = layoutParams.flags or FLAG_KEEP_SCREEN_ON
             } else {
