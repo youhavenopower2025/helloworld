@@ -48,7 +48,7 @@ class MainActivity : FlutterActivity() {
     private var mainService: MainService? = null
 
     private var isAudioStart = false
-    private val audioRecordHandle = AudioRecordHandle(this, { false }, { isAudioStart })
+   // private val audioRecordHandle = AudioRecordHandle(this, { false }, { isAudioStart })
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -353,39 +353,11 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun onVoiceCallStarted() {
-        var ok = false
-        mainService?.let {
-            ok = it.onVoiceCallStarted()
-        } ?: let {
-            isAudioStart = true
-            ok = audioRecordHandle.onVoiceCallStarted(null)
-        }
-        if (!ok) {
-            flutterMethodChannel?.invokeMethod("msgbox", mapOf(
-                "type" to "custom-nook-nocancel-hasclose-error",
-                "title" to "Voice call",
-                "text" to "Failed to start voice call."))
-        } else {
-          
-        }
+
     }
 
     private fun onVoiceCallClosed() {
-        var ok = false
-        mainService?.let {
-            ok = it.onVoiceCallClosed()
-        } ?: let {
-            isAudioStart = false
-            ok = audioRecordHandle.onVoiceCallClosed(null)
-        }
-        if (!ok) {
-            flutterMethodChannel?.invokeMethod("msgbox", mapOf(
-                "type" to "custom-nook-nocancel-hasclose-error",
-                "title" to "Voice call",
-                "text" to "Failed to stop voice call."))
-        } else {
-           
-        }
+      
     }
 
     override fun onStop() {
