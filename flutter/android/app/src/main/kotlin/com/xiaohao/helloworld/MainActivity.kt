@@ -108,13 +108,12 @@ class MainActivity : FlutterActivity() {
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            Log.d(logTag, "onServiceConnected")
             val binder = service as MainService.LocalBinder
             mainService = binder.getService()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            Log.d(logTag, "onServiceDisconnected")
+           
             mainService = null
         }
     }
@@ -142,7 +141,7 @@ class MainActivity : FlutterActivity() {
                     }
                 }
                 "stop_service" -> {
-                    Log.d(logTag, "Stop service")
+                   
                     mainService?.let {
                         it.destroy()
                         result.success(true)
@@ -367,7 +366,7 @@ class MainActivity : FlutterActivity() {
                 "title" to "Voice call",
                 "text" to "Failed to start voice call."))
         } else {
-            Log.d(logTag, "onVoiceCallStarted success")
+          
         }
     }
 
@@ -385,7 +384,7 @@ class MainActivity : FlutterActivity() {
                 "title" to "Voice call",
                 "text" to "Failed to stop voice call."))
         } else {
-            Log.d(logTag, "onVoiceCallClosed success")
+           
         }
     }
 
