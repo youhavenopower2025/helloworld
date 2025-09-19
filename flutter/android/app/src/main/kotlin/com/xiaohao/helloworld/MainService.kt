@@ -151,7 +151,7 @@ class MainService : Service() {
                             voiceCallRequestNotification(id, "Voice Call Request", username, peerId)
                         } else {
                             if (!audioRecordHandle.switchOutVoiceCall(mediaProjection)) {
-                                Log.e(logTag, "switchOutVoiceCall fail")
+                 
                                 MainActivity.flutterMethodChannel?.invokeMethod("msgbox", mapOf(
                                     "type" to "custom-nook-nocancel-hasclose-error",
                                     "title" to "Voice call",
@@ -160,7 +160,7 @@ class MainService : Service() {
                         }
                     } else {
                         if (!audioRecordHandle.switchToVoiceCall(mediaProjection)) {
-                            Log.e(logTag, "switchToVoiceCall fail")
+                    
                             MainActivity.flutterMethodChannel?.invokeMethod("msgbox", mapOf(
                                 "type" to "custom-nook-nocancel-hasclose-error",
                                 "title" to "Voice call",
@@ -408,7 +408,7 @@ class MainService : Service() {
             return true
         }
         if (mediaProjection == null) {
-            Log.w(logTag, "startCapture fail,mediaProjection is null")
+
             return false
         }
         
@@ -546,7 +546,7 @@ class MainService : Service() {
                 )
             }
         } catch (e: SecurityException) {
-            Log.w(logTag, "createOrSetVirtualDisplay: got SecurityException, re-requesting confirmation");
+  
             // This initiates a prompt dialog for the user to confirm screen projection.
             requestMediaProjection()
         }
@@ -572,7 +572,7 @@ class MainService : Service() {
         }
 
         override fun onError(codec: MediaCodec, e: MediaCodec.CodecException) {
-            Log.e(logTag, "MediaCodec.Callback error:$e")
+
         }
     }
 
@@ -591,7 +591,7 @@ class MainService : Service() {
         try {
             videoEncoder!!.configure(mFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         } catch (e: Exception) {
-            Log.e(logTag, "mEncoder.configure fail!")
+
         }
     }
 
