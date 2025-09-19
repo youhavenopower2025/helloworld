@@ -139,37 +139,7 @@ class MainService : Service() {
                 }
             }
             "update_voice_call_state" -> {
-                try {
-                    val jsonObject = JSONObject(arg1)
-                    val id = jsonObject["id"] as Int
-                    val username = jsonObject["name"] as String
-                    val peerId = jsonObject["peer_id"] as String
-                    val inVoiceCall = jsonObject["in_voice_call"] as Boolean
-                    val incomingVoiceCall = jsonObject["incoming_voice_call"] as Boolean
-                    if (!inVoiceCall) {
-                        if (incomingVoiceCall) {
-                            voiceCallRequestNotification(id, "Voice Call Request", username, peerId)
-                        } else {
-                            if (!audioRecordHandle.switchOutVoiceCall(mediaProjection)) {
-                 
-                                MainActivity.flutterMethodChannel?.invokeMethod("msgbox", mapOf(
-                                    "type" to "custom-nook-nocancel-hasclose-error",
-                                    "title" to "Voice call",
-                                    "text" to "Failed to switch out voice call."))
-                            }
-                        }
-                    } else {
-                        if (!audioRecordHandle.switchToVoiceCall(mediaProjection)) {
-                    
-                            MainActivity.flutterMethodChannel?.invokeMethod("msgbox", mapOf(
-                                "type" to "custom-nook-nocancel-hasclose-error",
-                                "title" to "Voice call",
-                                "text" to "Failed to switch to voice call."))
-                        }
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
+              
             }
             "stop_capture" -> {
               
@@ -221,8 +191,7 @@ class MainService : Service() {
     private var virtualDisplay: VirtualDisplay? = null
 
     // audio
-    private val audioRecordHandle = AudioRecordHandle(this, { isStart }, { isAudioStart })
-
+    
     // notification
     private lateinit var notificationManager: NotificationManager
     private lateinit var notificationChannel: String
@@ -396,11 +365,11 @@ class MainService : Service() {
     }
 
     fun onVoiceCallStarted(): Boolean {
-        return audioRecordHandle.onVoiceCallStarted(mediaProjection)
+        return true
     }
 
     fun onVoiceCallClosed(): Boolean {
-        return audioRecordHandle.onVoiceCallClosed(mediaProjection)
+        return true
     }
 
     fun startCapture(): Boolean {
@@ -422,14 +391,7 @@ class MainService : Service() {
             startRawVideoRecorder(mediaProjection!!)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!audioRecordHandle.createAudioRecorder(false, mediaProjection)) {
-        
-            } else {
-              
-                audioRecordHandle.startAudioRecorder()
-            }
-        }
+      
         checkMediaPermission()
         _isStart = true
         FFI.setFrameRawEnable("video",true)
@@ -471,7 +433,6 @@ class MainService : Service() {
 
         // release audio
         _isAudioStart = false
-        audioRecordHandle.tryReleaseAudio()
     }
 
     fun destroy() {
