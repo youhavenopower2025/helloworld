@@ -50,7 +50,7 @@ class RdClipboardManager(private val clipboardManager: ClipboardManager) {
             // Because it's an action manually triggered by the user.
             if (isClient) {
                 if (lastUpdatedClipData != null && isClipboardDataEqual(clipData, lastUpdatedClipData!!)) {
-                    Log.d(logTag, "Clipboard data is the same as last update, ignore")
+                
                     return
                 }
             }
@@ -89,7 +89,7 @@ class RdClipboardManager(private val clipboardManager: ClipboardManager) {
                 }
                 clipsBuf.flip()
                 lastUpdatedClipData = clipData
-                Log.d(logTag, "${if (isClient) "client" else "host"}, send clipboard data to the remote")
+          
                 FFI.onClipboardUpdate(clipsBuf)
             }
         }
@@ -135,13 +135,13 @@ class RdClipboardManager(private val clipboardManager: ClipboardManager) {
 
     @Keep
     fun rustEnableClientClipboard(enable: Boolean) {
-        Log.d(logTag, "rustEnableClientClipboard: enable: $enable")
+
         isClientEnabled = enable
         lastUpdatedClipData = null
     }
 
     fun syncClipboard(isClient: Boolean) {
-        Log.d(logTag, "syncClipboard: isClient: $isClient, isClientEnabled: $isClientEnabled")
+       
         if (isClient && !isClientEnabled) {
             return
         }
@@ -169,7 +169,7 @@ class RdClipboardManager(private val clipboardManager: ClipboardManager) {
                 ClipboardFormat.ImagePng -> {
                 }
                 else -> {
-                    Log.e(logTag, "Unsupported clipboard format: ${clip.format}")
+                   
                 }
             }
         }
@@ -177,7 +177,7 @@ class RdClipboardManager(private val clipboardManager: ClipboardManager) {
         val clipDescription = ClipDescription("clipboard", mimeTypes.toTypedArray())
         var item: ClipData.Item? = null
         if (text == null) {
-            Log.e(logTag, "No text content in clipboard")
+            
             return
         } else {
             if (html == null) {
@@ -187,7 +187,7 @@ class RdClipboardManager(private val clipboardManager: ClipboardManager) {
             }
         }
         if (item == null) {
-            Log.e(logTag, "No item in clipboard")
+          
             return
         }
         val clipData = ClipData(clipDescription, item)
